@@ -10,8 +10,8 @@
         @yield('og')
     @endif
 
-    @if ($theme->favicon_path)
-        <link rel="icon" href="{{ asset('storage/' . $theme->favicon_path) }}">
+    @if ($theme->faviconUrl())
+        <link rel="icon" href="{{ $theme->faviconUrl() }}">
     @endif
 
     <style>

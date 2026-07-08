@@ -72,11 +72,36 @@ class NationalAuthController extends Controller
             return redirect()->route('member.login')->withErrors(['email' => 'Could not load your national profile.']);
         }
 
-        $user = $this->upsertUser($profile->json());
+        $profileData = $profile->json();
+
+        // Keep the local record in sync with the national account first, so the
+        // member profile reflects reality even when access is subsequently denied.
+        $user = $this->upsertUser($profileData);
+
+        // Honour the national account status: only members in good standing may
+        // sign in. A suspended/rejected/pending national account is turned away.
+        if ($this->mapStatus($profileData['status'] ?? null) !== MemberStatus::Approved) {
+            return redirect()->route('member.login')->withErrors([
+                'email' => 'Your national membership is not active. Please contact Unikosa.',
+            ]);
+        }
 
         Auth::login($user, remember: true);
 
         return redirect()->intended(route('member.dashboard'));
+    }
+
+    /**
+     * Map a national account status string onto a local member status.
+     * Anything other than an explicit "approved" is treated as not-in-good-standing.
+     */
+    protected function mapStatus(?string $status): MemberStatus
+    {
+        return match (strtolower((string) $status)) {
+            'approved' => MemberStatus::Approved,
+            'pending' => MemberStatus::Pending,
+            default => MemberStatus::Rejected,
+        };
     }
 
     protected function upsertUser(array $profile): User
@@ -97,19 +122,30 @@ class NationalAuthController extends Controller
         $user->email = $email;
         $user->save();
 
-        if (! $user->hasAnyRole(['member', 'content_admin', 'super_admin'])) {
+        if (! $user->hasAnyRole(['member', 'content_admin', 'site_manager', 'super_admin'])) {
             $user->assignRole('member');
         }
 
-        // Ensure a linked member profile exists (national members are pre-vetted).
-        if (! $user->member) {
+        $status = $this->mapStatus($profile['status'] ?? null);
+        $avatarUrl = $profile['avatar'] ?? null;
+
+        // Ensure a linked member profile exists and stays in sync with the
+        // national account on every sign-in (status + avatar are authoritative
+        // from the national side; locally editable fields are left untouched).
+        if ($member = $user->member) {
+            $member->update([
+                'status' => $status,
+                'avatar_url' => $avatarUrl,
+            ]);
+        } else {
             Member::create([
                 'user_id' => $user->id,
                 'full_name' => $user->name,
                 'contact_email' => $user->email,
                 'country' => $profile['country'] ?? 'United States',
+                'avatar_url' => $avatarUrl,
                 'is_public' => false,
-                'status' => MemberStatus::Approved,
+                'status' => $status,
             ]);
         }
 

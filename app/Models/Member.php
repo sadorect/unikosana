@@ -27,6 +27,7 @@ class Member extends Model implements HasMedia
         'biography',
         'contact_email',
         'contact_phone',
+        'avatar_url',
         'is_public',
         'user_id',
         'status',
@@ -65,6 +66,8 @@ class Member extends Model implements HasMedia
     {
         $media = $this->getFirstMedia('photo');
 
-        return $media ? $media->getUrl() : null;
+        // Prefer a locally uploaded photo; otherwise fall back to the avatar
+        // synced from the national (Unikosa) profile.
+        return $media ? $media->getUrl() : ($this->avatar_url ?: null);
     }
 }

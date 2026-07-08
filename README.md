@@ -92,3 +92,8 @@ server so the scheduler runs:
 ```bash
 php artisan test
 ```
+
+## Operations runbooks
+
+- [Switching asset storage to Cloudflare R2](docs/r2-migration-runbook.md) —
+  step-by-step cutover using `assets:sync-r2` and `media:repoint-disk`.

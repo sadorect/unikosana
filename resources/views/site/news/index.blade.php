@@ -6,6 +6,13 @@
 @section('content')
     @include('site.partials.page-header', ['title' => 'News & Announcements', 'subtitle' => 'Stay up to date with our community.'])
 
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pt-6">
+        @include('site.partials.breadcrumbs', ['items' => [
+            ['label' => 'Home', 'url' => route('home')],
+            ['label' => 'News'],
+        ]])
+    </div>
+
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         {{-- Type filter --}}
         <div class="mb-8 flex flex-wrap gap-2">

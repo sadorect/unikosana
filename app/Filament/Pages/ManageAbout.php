@@ -45,7 +45,7 @@ class ManageAbout extends SettingsPage
                         FileUpload::make('org_structure_image_path')
                             ->label('Org chart image')
                             ->image()
-                            ->disk('public')
+                            ->disk(config('filesystems.media_disk'))
                             ->directory('about')
                             ->visibility('public'),
                     ]),
@@ -54,7 +54,7 @@ class ManageAbout extends SettingsPage
                         FileUpload::make('constitution_pdf_path')
                             ->label('Constitution (PDF)')
                             ->acceptedFileTypes(['application/pdf'])
-                            ->disk('public')
+                            ->disk(config('filesystems.media_disk'))
                             ->directory('about')
                             ->visibility('public'),
                     ]),

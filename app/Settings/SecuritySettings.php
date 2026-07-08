@@ -10,6 +10,8 @@ class SecuritySettings extends Settings
 
     public string $captcha_difficulty;
 
+    public bool $admin_captcha_enabled;
+
     public static function group(): string
     {
         return 'security';

@@ -12,8 +12,8 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 grid gap-8 md:grid-cols-5">
         <div class="md:col-span-2">
             <div class="flex items-center gap-3">
-                @if ($theme->logo_path)
-                    <img src="{{ asset('storage/' . $theme->logo_path) }}" alt="{{ $theme->site_name }}" class="h-10 w-auto bg-white/90 rounded p-1">
+                @if ($theme->logoUrl())
+                    <img src="{{ $theme->logoUrl() }}" alt="{{ $theme->site_name }}" class="h-10 w-auto bg-white/90 rounded p-1">
                 @endif
                 <span class="text-lg font-semibold text-white">{{ $theme->site_name }}</span>
             </div>

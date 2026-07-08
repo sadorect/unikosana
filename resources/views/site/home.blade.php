@@ -5,8 +5,8 @@
 @section('content')
     {{-- Hero --}}
     <section class="relative overflow-hidden" style="background-color: var(--color-brand-dark)">
-        @if ($home->hero_image_path)
-            <img src="{{ asset('storage/' . $home->hero_image_path) }}" alt="" class="absolute inset-0 h-full w-full object-cover opacity-25">
+        @if ($home->heroImageUrl())
+            <img src="{{ $home->heroImageUrl() }}" alt="" class="absolute inset-0 h-full w-full object-cover opacity-25">
         @endif
         <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-24 sm:py-32 text-center">
             <h1 class="mx-auto max-w-3xl text-4xl font-extrabold tracking-tight text-white sm:text-5xl">

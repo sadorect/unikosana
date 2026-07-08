@@ -17,6 +17,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Media Disk
+    |--------------------------------------------------------------------------
+    |
+    | The disk used for all uploaded, publicly served assets — media library
+    | files as well as branding/settings uploads (logo, favicon, hero, etc.).
+    | Defaults to the local "public" disk; point it at "r2" (with the R2_*
+    | env vars set) to serve every asset from Cloudflare R2 with no code change.
+    |
+    */
+
+    'media_disk' => env('MEDIA_DISK', 'public'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
@@ -56,6 +70,21 @@ return [
             'url' => env('AWS_URL'),
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
+            'throw' => false,
+            'report' => false,
+        ],
+
+        // Cloudflare R2 (S3-compatible). Set the R2_* env vars and switch
+        // MEDIA_DISK=r2 to serve all uploaded assets from R2.
+        'r2' => [
+            'driver' => 's3',
+            'key' => env('R2_ACCESS_KEY_ID'),
+            'secret' => env('R2_SECRET_ACCESS_KEY'),
+            'region' => 'auto',
+            'endpoint' => env('R2_ENDPOINT'),
+            'url' => env('R2_URL'),
+            'bucket' => env('R2_BUCKET'),
+            'use_path_style_endpoint' => true,
             'throw' => false,
             'report' => false,
         ],

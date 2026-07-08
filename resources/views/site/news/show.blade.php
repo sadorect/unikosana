@@ -12,7 +12,13 @@
 
 @section('content')
     <article class="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-12">
-        <div class="flex items-center gap-3 text-sm text-slate-500">
+        @include('site.partials.breadcrumbs', ['items' => [
+            ['label' => 'Home', 'url' => route('home')],
+            ['label' => 'News', 'url' => route('news.index')],
+            ['label' => Str::limit($post->title, 60)],
+        ]])
+
+        <div class="mt-6 flex items-center gap-3 text-sm text-slate-500">
             <span class="rounded-full px-2 py-0.5 text-xs font-medium" style="background-color: color-mix(in srgb, var(--color-brand-accent) 20%, white); color: var(--color-brand-dark)">{{ $post->type->getLabel() }}</span>
             @if ($post->published_at)<time>{{ $post->published_at->format('F j, Y') }}</time>@endif
             @if ($post->author)<span>· by {{ $post->author->name }}</span>@endif
@@ -46,14 +52,39 @@
             <a href="https://api.whatsapp.com/send?text={{ $text }}%20{{ $url }}" target="_blank" rel="noopener" class="rounded-full bg-slate-100 px-3 py-1 text-sm hover:bg-slate-200">WhatsApp</a>
             <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ $url }}" target="_blank" rel="noopener" class="rounded-full bg-slate-100 px-3 py-1 text-sm hover:bg-slate-200">LinkedIn</a>
         </div>
+
+        {{-- Previous / Next article navigation --}}
+        @if ($previous || $next)
+            <nav aria-label="Post navigation" class="mt-10 grid gap-4 border-t border-slate-200 pt-6 sm:grid-cols-2">
+                @if ($previous)
+                    <a href="{{ route('news.show', $previous) }}" class="group rounded-xl ring-1 ring-slate-200 p-4 hover:ring-slate-300 hover:bg-slate-50 sm:text-left">
+                        <span class="text-xs font-medium uppercase tracking-wide text-slate-400">&larr; Previous</span>
+                        <span class="mt-1 block font-semibold text-slate-900 group-hover:underline">{{ $previous->title }}</span>
+                    </a>
+                @else
+                    <span class="hidden sm:block"></span>
+                @endif
+
+                @if ($next)
+                    <a href="{{ route('news.show', $next) }}" class="group rounded-xl ring-1 ring-slate-200 p-4 hover:ring-slate-300 hover:bg-slate-50 sm:text-right">
+                        <span class="text-xs font-medium uppercase tracking-wide text-slate-400">Next &rarr;</span>
+                        <span class="mt-1 block font-semibold text-slate-900 group-hover:underline">{{ $next->title }}</span>
+                    </a>
+                @endif
+            </nav>
+        @endif
+
+        <div class="mt-8">
+            <a href="{{ route('news.index') }}" class="text-sm font-semibold hover:underline" style="color: var(--color-brand)">&larr; Back to all news</a>
+        </div>
     </article>
 
     @if ($related->isNotEmpty())
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-16">
-            <h2 class="text-xl font-bold text-slate-900">Related</h2>
+            <h2 class="text-xl font-bold text-slate-900">Related articles</h2>
             <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach ($related as $post)
-                    @include('site.partials.post-card', ['post' => $post])
+                @foreach ($related as $relatedPost)
+                    @include('site.partials.post-card', ['post' => $relatedPost])
                 @endforeach
             </div>
         </div>

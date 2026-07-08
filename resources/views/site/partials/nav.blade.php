@@ -19,8 +19,8 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="flex h-16 items-center justify-between gap-4">
             <a href="{{ route('home') }}" class="flex items-center gap-3 shrink-0">
-                @if ($theme->logo_path)
-                    <img src="{{ asset('storage/' . $theme->logo_path) }}" alt="{{ $theme->site_name }}" class="h-10 w-auto">
+                @if ($theme->logoUrl())
+                    <img src="{{ $theme->logoUrl() }}" alt="{{ $theme->site_name }}" class="h-10 w-auto">
                 @else
                     <span class="grid h-10 w-10 place-items-center rounded-lg text-white font-bold" style="background-color: var(--color-brand)">U</span>
                 @endif

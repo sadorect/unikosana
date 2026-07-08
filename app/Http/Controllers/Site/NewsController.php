@@ -31,6 +31,17 @@ class NewsController extends Controller
             ->limit(3)
             ->get();
 
-        return view('site.news.show', compact('post', 'related'));
+        // Chronological navigation across all published posts.
+        $previous = Post::published()
+            ->where('published_at', '<', $post->published_at)
+            ->reorder('published_at', 'desc')
+            ->first();
+
+        $next = Post::published()
+            ->where('published_at', '>', $post->published_at)
+            ->reorder('published_at', 'asc')
+            ->first();
+
+        return view('site.news.show', compact('post', 'related', 'previous', 'next'));
     }
 }

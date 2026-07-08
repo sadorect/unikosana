@@ -38,13 +38,13 @@ class ManageTheme extends SettingsPage
                         FileUpload::make('logo_path')
                             ->label('Logo')
                             ->image()
-                            ->disk('public')
+                            ->disk(config('filesystems.media_disk'))
                             ->directory('branding')
                             ->visibility('public'),
                         FileUpload::make('favicon_path')
                             ->label('Favicon')
                             ->image()
-                            ->disk('public')
+                            ->disk(config('filesystems.media_disk'))
                             ->directory('branding')
                             ->visibility('public'),
                     ]),

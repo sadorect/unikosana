@@ -38,7 +38,7 @@ class ManageHomepage extends SettingsPage
                         FileUpload::make('hero_image_path')
                             ->label('Hero background image')
                             ->image()
-                            ->disk('public')
+                            ->disk(config('filesystems.media_disk'))
                             ->directory('home')
                             ->visibility('public'),
                     ]),

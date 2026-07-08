@@ -34,6 +34,9 @@ class ManageSecurity extends SettingsPage
                     ->schema([
                         Toggle::make('captcha_enabled')
                             ->label('Require image captcha on public forms'),
+                        Toggle::make('admin_captcha_enabled')
+                            ->label('Require image captcha on the admin login')
+                            ->helperText('Adds an extra challenge to the admin panel sign-in, on top of login rate limiting.'),
                         Select::make('captcha_difficulty')
                             ->options([
                                 'default' => 'Default',

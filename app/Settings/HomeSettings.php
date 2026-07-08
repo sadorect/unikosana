@@ -2,6 +2,7 @@
 
 namespace App\Settings;
 
+use Illuminate\Support\Facades\Storage;
 use Spatie\LaravelSettings\Settings;
 
 class HomeSettings extends Settings
@@ -21,5 +22,12 @@ class HomeSettings extends Settings
     public static function group(): string
     {
         return 'home';
+    }
+
+    public function heroImageUrl(): ?string
+    {
+        return $this->hero_image_path
+            ? Storage::disk(config('filesystems.media_disk'))->url($this->hero_image_path)
+            : null;
     }
 }

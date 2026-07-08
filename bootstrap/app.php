@@ -14,6 +14,12 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Send unauthenticated visitors to the member login (not the missing "login" route).
         $middleware->redirectGuestsTo(fn () => route('member.login'));
+
+        // Baseline hardening headers on every public (web) response. The admin
+        // panel adds the same middleware through its own stack.
+        $middleware->web(append: [
+            \App\Http\Middleware\SecurityHeaders::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

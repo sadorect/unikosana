@@ -2,6 +2,7 @@
 
 namespace App\Settings;
 
+use Illuminate\Support\Facades\Storage;
 use Spatie\LaravelSettings\Settings;
 
 class ThemeSettings extends Settings
@@ -21,5 +22,19 @@ class ThemeSettings extends Settings
     public static function group(): string
     {
         return 'theme';
+    }
+
+    public function logoUrl(): ?string
+    {
+        return $this->logo_path
+            ? Storage::disk(config('filesystems.media_disk'))->url($this->logo_path)
+            : null;
+    }
+
+    public function faviconUrl(): ?string
+    {
+        return $this->favicon_path
+            ? Storage::disk(config('filesystems.media_disk'))->url($this->favicon_path)
+            : null;
     }
 }

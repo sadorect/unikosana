@@ -15,11 +15,23 @@ class RegisterController extends Controller
 {
     public function create()
     {
+        if ($this->nationalSsoEnabled()) {
+            return redirect()->away($this->nationalRegisterUrl());
+        }
+
         return view('member.register');
     }
 
     public function store(Request $request)
     {
+        // Membership accounts are created centrally on the national Unikosa
+        // site; the chapter only creates local accounts for delegated roles
+        // (via the admin panel). Self-registration here is disabled while SSO
+        // is configured, but the route/logic is kept for easy re-enablement.
+        if ($this->nationalSsoEnabled()) {
+            abort(403, 'Membership accounts are created on the national Unikosa site.');
+        }
+
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
@@ -61,5 +73,22 @@ class RegisterController extends Controller
 
         return redirect()->route('member.dashboard')
             ->with('success', 'Welcome! Your membership registration has been received and is awaiting approval.');
+    }
+
+    /**
+     * Whether central (national) Unikosa SSO is configured. When it is, all
+     * member account creation happens on the national site.
+     */
+    protected function nationalSsoEnabled(): bool
+    {
+        return filled(config('services.national.client_id'));
+    }
+
+    /**
+     * The national site's public registration page.
+     */
+    protected function nationalRegisterUrl(): string
+    {
+        return rtrim(config('services.national.base_url'), '/') . '/register';
     }
 }

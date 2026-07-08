@@ -49,17 +49,17 @@
                 @if ($about->org_structure)
                     <div class="mt-4 space-y-4 leading-relaxed text-slate-600">{!! nl2br(e($about->org_structure)) !!}</div>
                 @endif
-                @if ($about->org_structure_image_path)
-                    <img src="{{ asset('storage/' . $about->org_structure_image_path) }}" alt="Organizational structure" class="mt-6 w-full rounded-xl ring-1 ring-slate-200">
+                @if ($about->orgStructureImageUrl())
+                    <img src="{{ $about->orgStructureImageUrl() }}" alt="Organizational structure" class="mt-6 w-full rounded-xl ring-1 ring-slate-200">
                 @endif
             </section>
         @endif
 
-        @if ($about->constitution_pdf_path)
+        @if ($about->constitutionPdfUrl())
             <section class="rounded-2xl p-8" style="background-color: color-mix(in srgb, var(--color-brand) 6%, white)">
                 <h2 class="text-xl font-bold text-slate-900">Governing Documents</h2>
                 <p class="mt-2 text-slate-600">Read our constitution and governing documents.</p>
-                <a href="{{ asset('storage/' . $about->constitution_pdf_path) }}" target="_blank" rel="noopener"
+                <a href="{{ $about->constitutionPdfUrl() }}" target="_blank" rel="noopener"
                    class="mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white" style="background-color: var(--color-brand)">
                     Download Constitution (PDF)
                 </a>

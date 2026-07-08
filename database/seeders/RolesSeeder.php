@@ -32,6 +32,9 @@ class RolesSeeder extends Seeder
 
         $superAdmin = Role::firstOrCreate(['name' => 'super_admin']);
         $contentAdmin = Role::firstOrCreate(['name' => 'content_admin']);
+        // Delegated chapter administrator: manages the local site's content but,
+        // like content admins, cannot manage users/roles or settings pages.
+        $siteManager = Role::firstOrCreate(['name' => 'site_manager']);
         // Members log in to the public member portal only — no admin panel access.
         Role::firstOrCreate(['name' => 'member']);
 
@@ -50,6 +53,8 @@ class RolesSeeder extends Seeder
         });
 
         $contentAdmin->syncPermissions($contentPermissions);
+        // Site managers manage the same chapter content as content admins.
+        $siteManager->syncPermissions($contentPermissions);
 
         // First Super Admin account.
         $admin = User::firstOrCreate(
