@@ -7,8 +7,8 @@
     x-data="{ src: @js(captcha_src($difficulty)), refresh() { this.src = @js($base) + '?' + Date.now(); } }"
     class="space-y-2"
 >
-    <div class="flex items-center gap-3">
-        <img :src="src" alt="Security code" class="h-12 rounded-md ring-1 ring-gray-950/10 dark:ring-white/20">
+    <div class="flex flex-wrap items-center gap-3">
+        <img :src="src" alt="Security code" class="h-auto w-full max-w-[220px] rounded-md ring-1 ring-gray-950/10 dark:ring-white/20">
         <button
             type="button"
             x-on:click="refresh()"

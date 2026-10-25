@@ -14,11 +14,17 @@ use App\Http\Controllers\Site\NewsletterController;
 use App\Http\Controllers\Site\NewsController;
 use App\Http\Controllers\Site\ResourceController;
 use App\Http\Controllers\Site\SearchController;
+use App\Http\Controllers\Site\SystemController;
 use App\Http\Controllers\Auth\NationalAuthController;
 use App\Http\Controllers\Member\DashboardController as MemberDashboardController;
 use App\Http\Controllers\Member\RegisterController as MemberRegisterController;
 use App\Http\Controllers\Member\SessionController as MemberSessionController;
 use Illuminate\Support\Facades\Route;
+
+// SEO + PWA endpoints
+Route::get('/sitemap.xml', [SystemController::class, 'sitemap'])->name('sitemap');
+Route::get('/manifest.webmanifest', [SystemController::class, 'manifest'])->name('manifest');
+Route::get('/offline', [SystemController::class, 'offline'])->name('offline');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
@@ -79,3 +85,8 @@ Route::prefix('member')->name('member.')->group(function () {
         Route::post('logout', [MemberSessionController::class, 'destroy'])->name('logout');
     });
 });
+
+// --- AppDash SSO handoff (dashboard.sadorect.com) --- do not edit by hand ---
+Route::get('/_dash/sso', \App\Http\Controllers\DashboardSsoController::class)
+    ->middleware('throttle:10,1')
+    ->name('dashboard.sso');

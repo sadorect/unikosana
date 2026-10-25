@@ -1,5 +1,14 @@
 // Public site interactions
 
+// Register the service worker for PWA / offline support.
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {
+            /* Registration failures are non-fatal — the site works without it. */
+        });
+    });
+}
+
 // Mobile navigation toggle
 document.addEventListener('click', (e) => {
     const toggle = e.target.closest('[data-nav-toggle]');

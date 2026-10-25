@@ -242,7 +242,10 @@ return [
         'notifiable' => Notifiable::class,
 
         'mail' => [
-            'to' => 'your@example.com',
+            // Was the unedited Spatie default 'your@example.com'. example.com
+            // publishes a null MX, so every backup notification hard-bounced and
+            // the bounce was mailed back to us. Fixed 2026-08-15.
+            'to' => env('BACKUP_NOTIFY_TO', 'webmaster@sadorect.com'),
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
