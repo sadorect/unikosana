@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5b0cfa71b77e31fd954eda724fe5e5d",
+    "content-hash": "c38d90a386ba0010097ddb220aa40b2c",
     "packages": [
         {
             "name": "anourvalar/eloquent-serialize",
@@ -1805,6 +1805,44 @@
                 "source": "https://github.com/filamentphp/filament"
             },
             "time": "2026-06-12T16:57:33+00:00"
+        },
+        {
+            "name": "filament/spatie-laravel-tags-plugin",
+            "version": "v3.3.58",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/filamentphp/spatie-laravel-tags-plugin.git",
+                "reference": "e4cfbeaec8d7777ddd78e2a6584705700b785642"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/filamentphp/spatie-laravel-tags-plugin/zipball/e4cfbeaec8d7777ddd78e2a6584705700b785642",
+                "reference": "e4cfbeaec8d7777ddd78e2a6584705700b785642",
+                "shasum": ""
+            },
+            "require": {
+                "filament/support": "self.version",
+                "illuminate/database": "^10.45|^11.0|^12.0|^13.0",
+                "php": "^8.1",
+                "spatie/laravel-tags": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Filament\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Filament support for `spatie/laravel-tags`.",
+            "homepage": "https://github.com/filamentphp/filament",
+            "support": {
+                "issues": "https://github.com/filamentphp/filament/issues",
+                "source": "https://github.com/filamentphp/filament"
+            },
+            "time": "2026-06-12T16:57:11+00:00"
         },
         {
             "name": "filament/support",

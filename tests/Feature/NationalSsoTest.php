@@ -67,6 +67,7 @@ class NationalSsoTest extends TestCase
                 'id' => 987,
                 'name' => 'National Member',
                 'email' => 'national.member@example.com',
+                'status' => 'approved',
                 'country' => 'Canada',
             ], 200),
         ]);
